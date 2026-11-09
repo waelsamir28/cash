@@ -208,6 +208,48 @@ export const inventoryCountItems = pgTable("inventory_count_items", {
   variance: money("variance"),
 });
 
+// ---- المرتجعات ----
+export const returns = pgTable("returns", {
+  id: serial("id").primaryKey(),
+  returnNo: text("return_no").notNull().unique(),
+  type: text("type").notNull().default("مرتجع مبيعات"),
+  originalInvoiceId: integer("original_invoice_id"),
+  originalInvoiceNo: text("original_invoice_no").notNull().default(""),
+  customerId: integer("customer_id"),
+  customerName: text("customer_name").notNull().default("عميل نقدي"),
+  total: money("total"),
+  reason: text("reason").notNull().default(""),
+  status: text("status").notNull().default("مكتمل"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const returnItems = pgTable("return_items", {
+  id: serial("id").primaryKey(),
+  returnId: integer("return_id")
+    .notNull()
+    .references(() => returns.id, { onDelete: "cascade" }),
+  productId: integer("product_id"),
+  productCode: text("product_code").notNull(),
+  productName: text("product_name").notNull(),
+  quantity: money("quantity"),
+  price: money("price"),
+  total: money("total"),
+});
+
+// ---- المصاريف اليومية ----
+export const expenses = pgTable("expenses", {
+  id: serial("id").primaryKey(),
+  code: text("code").notNull().unique(),
+  title: text("title").notNull(),
+  category: text("category").notNull().default("أخرى"),
+  amount: money("amount"),
+  expenseDate: timestamp("expense_date", { withTimezone: true }).notNull().defaultNow(),
+  paymentMethod: text("payment_method").notNull().default("نقدي"),
+  notes: text("notes").notNull().default(""),
+  createdBy: text("created_by").notNull().default(""),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export type PaymentAllocationRow = typeof paymentAllocations.$inferSelect;
 export type ProductCategoryRow = typeof productCategories.$inferSelect;
 export type ProductGroupRow = typeof productGroups.$inferSelect;
@@ -225,3 +267,6 @@ export type PurchaseOrderRow = typeof purchaseOrders.$inferSelect;
 export type PurchaseOrderItemRow = typeof purchaseOrderItems.$inferSelect;
 export type InventoryCountRow = typeof inventoryCounts.$inferSelect;
 export type InventoryCountItemRow = typeof inventoryCountItems.$inferSelect;
+export type ReturnRow = typeof returns.$inferSelect;
+export type ReturnItemRow = typeof returnItems.$inferSelect;
+export type ExpenseRow = typeof expenses.$inferSelect;

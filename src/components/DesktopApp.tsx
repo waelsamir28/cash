@@ -6,7 +6,7 @@ import {
   Clock3, Database, FileSearch, FileText, GraduationCap, HandCoins, Headset, HelpCircle, Home,
   Info, LogOut, Minus, NotebookPen, Package, Palette, Pencil, Phone, Printer,
   Save, Settings, ShoppingBasket, ShoppingCart, SlidersHorizontal, Square, Star,
-  Tags, Users, Wallet, Warehouse, Wifi, X, type LucideIcon,
+  RotateCcw, Tags, Users, Wallet, Warehouse, Wifi, X, type LucideIcon,
 } from "lucide-react";
 import { api } from "@/lib/client-api";
 import { dateTime, money, num } from "@/lib/format";
@@ -33,6 +33,8 @@ import { Monitor, Smartphone, Tag } from "lucide-react";
 import PurchaseRequestsScreen from "@/components/PurchaseRequestsScreen";
 import ShiftsScreen from "@/components/ShiftsScreen";
 import InventoryCountScreen from "@/components/InventoryCountScreen";
+import ReturnsScreen from "@/components/ReturnsScreen";
+import ExpensesScreen from "@/components/ExpensesScreen";
 import { SUPPORT, whatsappLink } from "@/lib/support";
 import StatementsScreen from "@/components/StatementsScreen";
 import InvoicePreviewScreen from "@/components/InvoicePreviewScreen";
@@ -58,7 +60,7 @@ const MODULE_ICONS: Record<ScreenKey, LucideIcon> = {
   reports: BarChart3, customers: Users, settings: Settings, backup: Database,
   support: Headset, about: Info, help: HelpCircle, statements: Wallet,
   preview: FileSearch, customize: SlidersHorizontal, installments: HandCoins, catalog: Boxes, labels: Barcode,
-  purchaseRequests: ShoppingBasket, shifts: Clock3, inventoryCount: ClipboardList,
+  purchaseRequests: ShoppingBasket, shifts: Clock3, inventoryCount: ClipboardList, returns: RotateCcw, expenses: Wallet,
 };
 
 const CUSTOM_ICONS: Record<string, LucideIcon> = {
@@ -67,7 +69,7 @@ const CUSTOM_ICONS: Record<string, LucideIcon> = {
 };
 
 const NAV_ORDER: ScreenKey[] = [
-  "home", "sales", "purchases", "purchaseRequests", "inventory", "inventoryCount", "catalog", "labels", "reports", "statements", "installments", "preview",
+  "home", "sales", "purchases", "purchaseRequests", "returns", "expenses", "inventory", "inventoryCount", "catalog", "labels", "reports", "statements", "installments", "preview",
   "customers", "shifts", "backup", "support", "settings", "customize", "help",
 ];
 
@@ -87,6 +89,8 @@ const TILE_DEFS: { key: TileKey; label: string; icon: LucideIcon; color: string 
   { key: "support", label: "الدعم الفني", icon: Headset, color: "linear-gradient(#4595e2,#0b408a)" },
   { key: "customize", label: "تخصيص البرنامج", icon: SlidersHorizontal, color: "linear-gradient(#627fa8,#243d63)" },
   { key: "purchaseRequests", label: "طلبات الشراء الذكية", icon: ShoppingBasket, color: "linear-gradient(#e68a1a,#a85d00)" },
+  { key: "returns", label: "المرتجعات", icon: RotateCcw, color: "linear-gradient(#e4572e,#9e2410)" },
+  { key: "expenses", label: "المصاريف", icon: Wallet, color: "linear-gradient(#6b4eff,#2d1b8a)" },
   { key: "shifts", label: "الورديات والكاشير", icon: Clock3, color: "linear-gradient(#4b7edb,#103a8a)" },
   { key: "inventoryCount", label: "جرد بالباركود", icon: ClipboardList, color: "linear-gradient(#36b58a,#0d6648)" },
   { key: "about", label: "معلومات عن البرنامج", icon: Info, color: "linear-gradient(#38a7ec,#0b5eae)" },
@@ -113,6 +117,8 @@ const SCREEN_TITLES: Record<ScreenKey, { title: string; sub: string; icon: Lucid
   preview: { title: "معاينة الفواتير", sub: "معاينة التصميم النهائي قبل الطباعة", icon: FileSearch },
   customize: { title: "تخصيص البرنامج", sub: "إخفاء وإضافة وحذف الوحدات وعناصر الواجهة", icon: SlidersHorizontal },
   purchaseRequests: { title: "طلبات الشراء الذكية", sub: "مراقبة النواقص واقتراح كميات الشراء تلقائياً", icon: ShoppingBasket },
+  returns: { title: "المرتجعات", sub: "مرتجع مبيعات ومشتريات مع تحديث المخزون والرصيد", icon: RotateCcw },
+  expenses: { title: "المصاريف اليومية", sub: "إيجار وكهرباء ومرتبات — تُحتسب في صافي الربح", icon: Wallet },
   shifts: { title: "الورديات والكاشير", sub: "إدارة المستخدمين والورديات مع تقرير كل وردية", icon: Clock3 },
   inventoryCount: { title: "الجرد بالباركود", sub: "مسح الأصناف بالموبايل وتقرير الفروقات", icon: ClipboardList },
 };
@@ -453,6 +459,10 @@ export default function DesktopApp({ initialProducts, initialCustomers, initialI
         return <InvoicePreviewScreen key={previewInvoiceId ?? "all"} invoices={invoices} customers={customers} initialInvoiceId={previewInvoiceId} onNavigate={(target) => navigate(target)} onBack={goBackToInvoice} backLabel={backLabel} {...common} />;
       case "purchaseRequests":
         return <PurchaseRequestsScreen products={products} {...common} />;
+      case "returns":
+        return <ReturnsScreen products={products} customers={customers} invoices={invoices} {...common} />;
+      case "expenses":
+        return <ExpensesScreen {...common} />;
       case "shifts":
         return <ShiftsScreen onToast={showToast} />;
       case "inventoryCount":

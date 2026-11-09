@@ -40,8 +40,11 @@ export default function ReportsScreen({ reports, invoices, settings, onOpenPrevi
       <div className="stat-grid">
         <div className="stat-card"><div className="k">إجمالي المبيعات</div><div className="v green">{fmt(reports?.salesTotal ?? 0, 2)}</div></div>
         <div className="stat-card"><div className="k">إجمالي المشتريات</div><div className="v red">{fmt(reports?.purchasesTotal ?? 0, 2)}</div></div>
-        <div className="stat-card"><div className="k">صافي الربح التقديري</div><div className="v">{fmt(reports?.profit ?? 0, 2)}</div></div>
+        <div className="stat-card"><div className="k">المصاريف</div><div className="v red">{fmt(reports?.expensesTotal ?? 0, 2)}</div></div>
+        <div className="stat-card"><div className="k">صافي الربح الحقيقي</div><div className="v" style={{ color: (reports?.netProfit ?? 0) >= 0 ? "#128349" : "#c01212", fontWeight: 900 }}>{fmt(reports?.netProfit ?? reports?.profit ?? 0, 2)}</div><small style={{ color: "#6b7e93" }}>بعد خصم المصاريف</small></div>
+        <div className="stat-card"><div className="k">المرتجعات</div><div className="v">{fmt(reports?.returnsTotal ?? 0, 2)}</div></div>
         <div className="stat-card"><div className="k">قيمة المخزون</div><div className="v">{fmt(reports?.stockValue ?? 0, 2)}</div></div>
+        <div className="stat-card"><div className="k">الربح الإجمالي (قبل المصاريف)</div><div className="v">{fmt(reports?.profit ?? 0, 2)}</div></div>
       </div>
 
       <div className="two-col" style={{ gridTemplateColumns: "1.4fr 1fr" }}>

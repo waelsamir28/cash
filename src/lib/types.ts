@@ -19,7 +19,9 @@ export type ScreenKey =
   | "labels"
   | "purchaseRequests"
   | "shifts"
-  | "inventoryCount";
+  | "inventoryCount"
+  | "returns"
+  | "expenses";
 
 export type StoreSettings = {
   storeName: string;
@@ -224,6 +226,9 @@ export type ReportsData = {
   productsCount: number;
   customersCount: number;
   stockValue: number;
+  expensesTotal: number;
+  returnsTotal: number;
+  netProfit: number;
   lowStock: Product[];
   topProducts: Array<{ name: string; quantity: number; total: number }>;
   daily: Array<{ day: string; total: number }>;
@@ -323,4 +328,43 @@ export type InventoryCountItem = {
   systemQuantity: number;
   countedQuantity: number;
   variance: number;
+};
+
+export type Expense = {
+  id: number;
+  code: string;
+  title: string;
+  category: string;
+  amount: number;
+  expenseDate: string;
+  paymentMethod: string;
+  notes: string;
+  createdBy: string;
+  createdAt: string;
+};
+
+export type ReturnRecord = {
+  id: number;
+  returnNo: string;
+  type: string;
+  originalInvoiceId: number | null;
+  originalInvoiceNo: string;
+  customerId: number | null;
+  customerName: string;
+  total: number;
+  reason: string;
+  status: string;
+  createdAt: string;
+  items?: ReturnItem[];
+};
+
+export type ReturnItem = {
+  id: number;
+  returnId: number;
+  productId: number | null;
+  productCode: string;
+  productName: string;
+  quantity: number;
+  price: number;
+  total: number;
 };

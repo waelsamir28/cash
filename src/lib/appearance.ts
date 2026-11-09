@@ -201,7 +201,7 @@ export const DEFAULT_UI_FLAGS: UiFlags = {
 };
 
 export const ALL_MODULES: ScreenKey[] = [
-  "home", "sales", "purchases", "purchaseRequests", "inventory", "inventoryCount", "catalog", "reports", "customers",
+  "home", "sales", "purchases", "purchaseRequests", "returns", "expenses", "inventory", "inventoryCount", "catalog", "reports", "customers",
   "settings", "backup", "support", "about", "help", "statements", "installments", "preview", "customize", "labels", "shifts",
 ];
 
@@ -226,6 +226,8 @@ export const MODULE_LABELS: Record<ScreenKey, string> = {
   customize: "تخصيص البرنامج",
   labels: "ملصقات الباركود",
   purchaseRequests: "طلبات الشراء الذكية",
+  returns: "المرتجعات",
+  expenses: "المصاريف",
   shifts: "الورديات والكاشير",
   inventoryCount: "جرد بالباركود",
 };

@@ -239,6 +239,41 @@ async function ensureNewTables(activePool: Pool): Promise<void> {
       "counted_quantity" numeric(14, 3) DEFAULT 0 NOT NULL,
       "variance" numeric(14, 3) DEFAULT 0 NOT NULL
     )`,
+    `CREATE TABLE IF NOT EXISTS "returns" (
+      "id" serial PRIMARY KEY NOT NULL,
+      "return_no" text NOT NULL UNIQUE,
+      "type" text DEFAULT 'مرتجع مبيعات' NOT NULL,
+      "original_invoice_id" integer,
+      "original_invoice_no" text DEFAULT '' NOT NULL,
+      "customer_id" integer,
+      "customer_name" text DEFAULT 'عميل نقدي' NOT NULL,
+      "total" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "reason" text DEFAULT '' NOT NULL,
+      "status" text DEFAULT 'مكتمل' NOT NULL,
+      "created_at" timestamp with time zone DEFAULT now() NOT NULL
+    )`,
+    `CREATE TABLE IF NOT EXISTS "return_items" (
+      "id" serial PRIMARY KEY NOT NULL,
+      "return_id" integer NOT NULL REFERENCES "returns"("id") ON DELETE cascade,
+      "product_id" integer,
+      "product_code" text NOT NULL,
+      "product_name" text NOT NULL,
+      "quantity" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "price" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "total" numeric(14, 3) DEFAULT 0 NOT NULL
+    )`,
+    `CREATE TABLE IF NOT EXISTS "expenses" (
+      "id" serial PRIMARY KEY NOT NULL,
+      "code" text NOT NULL UNIQUE,
+      "title" text NOT NULL,
+      "category" text DEFAULT 'أخرى' NOT NULL,
+      "amount" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "expense_date" timestamp with time zone DEFAULT now() NOT NULL,
+      "payment_method" text DEFAULT 'نقدي' NOT NULL,
+      "notes" text DEFAULT '' NOT NULL,
+      "created_by" text DEFAULT '' NOT NULL,
+      "created_at" timestamp with time zone DEFAULT now() NOT NULL
+    )`,
   ];
   for (const sql of extraSQL) {
     try {
