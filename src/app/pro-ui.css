@@ -1,0 +1,130 @@
+/* Global typography and control customization */
+.app-root { font-family: var(--app-font-family, Tahoma, sans-serif); }
+.app-root button, .app-root input, .app-root select, .app-root textarea { font-family: inherit; }
+.app-root .btn, .app-root .side-btn, .app-root .tile, .app-root .settings-tab, .app-root .field, .app-root input, .app-root select, .app-root textarea, .app-root .app-select-trigger, .app-root .panel, .app-root .modal { border-radius: var(--control-radius, 6px); }
+.app-root .win-table td, .app-root .win-table th { padding-block: var(--row-padding, 6px); }
+.app-root[data-table-striped="false"] .win-table tbody tr:nth-child(even) { background: transparent; }
+.app-root[data-reduce-motion="true"] *, .app-root[data-reduce-motion="true"] *::before, .app-root[data-reduce-motion="true"] *::after { animation: none !important; transition: none !important; }
+
+/* Smaller home buttons and sidebar by default, still configurable */
+.app-root .side-btn { min-height: 38px; font-size: calc(14px * var(--sidebar-font-scale, .88)); padding: 5px 10px; }
+.app-root .side-btn svg { width: 19px; height: 19px; }
+.app-root .side-logo strong { font-size: calc(20px * var(--sidebar-font-scale, .88)); }
+.app-root .side-note { font-size: calc(11px * var(--sidebar-font-scale, .88)); }
+.app-root .tile { min-height: 78px; gap: 5px; }
+.app-root .tile-icon { width: 42px; height: 42px; }
+.app-root .tile-icon svg { width: 25px; height: 25px; }
+.app-root .tile-label { font-size: calc(15px * var(--home-font-scale, .88)); }
+.app-root .home-tiles { gap: 8px; }
+.app-root .head-chip { font-size: calc(11px * var(--home-font-scale, .88)); }
+
+/* Button style variants */
+.app-root[data-button-style="flat"] .btn { box-shadow: none; background: #e7eef7; }
+.app-root[data-button-style="flat"] .btn.blue { background: var(--theme-primary); }
+.app-root[data-button-style="flat"] .btn.green { background: #28a862; }
+.app-root[data-button-style="flat"] .btn.red { background: var(--theme-accent); }
+.app-root[data-button-style="outline"] .btn { background: transparent; box-shadow: none; color: var(--theme-dark); border: 2px solid var(--theme-primary); }
+.app-root[data-button-style="outline"] .btn.blue, .app-root[data-button-style="outline"] .btn.green, .app-root[data-button-style="outline"] .btn.red { color: var(--theme-dark); background: transparent; }
+.app-root[data-density="compact"] .panel-body { padding: 8px; }
+.app-root[data-density="spacious"] .panel-body { padding: 16px; }
+
+/* Appearance settings */
+.font-option-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.font-option { border: 2px solid #c3d5e7; border-radius: 8px; background: linear-gradient(#fff,#f2f7fd); padding: 12px; text-align: right; }
+.font-option.active { border-color: var(--theme-primary, #1a67bd); box-shadow: 0 0 0 2px rgba(26,103,189,.15); }
+.font-option b { display: block; color: #174b84; font-size: 15px; }
+.font-option span { display: block; margin: 7px 0; color: #2c4d73; font-size: 14px; }
+.font-option small { color: #6b7f95; font-size: 11px; }
+.appearance-range { width: 100%; accent-color: var(--theme-primary, #1a67bd); }
+.button-choice-row { display: flex; gap: 7px; flex-wrap: wrap; }
+.choice-chip.active { outline: 2px solid var(--theme-primary, #1a67bd); outline-offset: 2px; }
+.appearance-preview { margin-top: 14px; border: 1px dashed #9db8d4; border-radius: 8px; padding: 14px; background: #f7fbff; }
+.appearance-preview b { color: #174b84; }
+.appearance-preview p { font-size: 13px; color: #4d6580; margin: 7px 0 12px; }
+.appearance-preview[data-button-style="flat"] .btn { box-shadow: none; }
+.appearance-preview[data-button-style="outline"] .btn { background: transparent; border: 2px solid #1a67bd; color: #174b84; }
+.invoice-template-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
+.invoice-template-card { border: 2px solid #c3d5e7; border-radius: 8px; background: #fff; padding: 9px; text-align: right; }
+.invoice-template-card.active { border-color: var(--theme-primary, #1a67bd); background: #f0f7ff; }
+.invoice-template-card b { display: block; font-size: 12px; color: #174b84; margin-top: 7px; }
+.invoice-template-card small { display: block; font-size: 10px; color: #6b7f95; line-height: 1.6; margin-top: 3px; }
+.invoice-template-thumb { display: block; height: 74px; border: 1px solid #b9cde0; border-radius: 4px; background: linear-gradient(#fff 0 18%, #1a67bd 18% 28%, #fff 28% 42%, #e8f1fb 42% 50%, #fff 50% 64%, #e8f1fb 64% 72%, #fff 72%); }
+.invoice-template-thumb.thumb-classic { background: repeating-linear-gradient(#fff 0 10px, #d7e4f2 10px 12px); border: 3px double #456; }
+.invoice-template-thumb.thumb-minimal { background: linear-gradient(#fff 0 22%, #222 22% 25%, #fff 25% 70%, #111 70% 82%, #fff 82%); }
+.invoice-template-thumb.thumb-compact { background: repeating-linear-gradient(#fff 0 7px, #cfd8e3 7px 9px); width: 58%; margin-inline: auto; }
+
+/* Floating product search */
+.product-search-backdrop { align-items: start; padding-top: 4vh; }
+.product-search-modal { width: min(1120px, 94vw); max-height: 90vh; }
+.product-search-toolbar { display: grid; grid-template-columns: 1fr 170px 170px 95px; gap: 8px; align-items: end; margin-bottom: 10px; }
+.product-search-input { display: flex; align-items: center; gap: 8px; border: 2px solid #1b71d0; border-radius: 6px; background: #fff; padding: 0 9px; color: #1b71d0; }
+.product-search-input input { border: 0; box-shadow: none !important; flex: 1; min-height: 36px; font-size: 14px; }
+.product-search-qty label { display: block; font-size: 11px; font-weight: 800; color: #29466a; margin-bottom: 3px; }
+.product-search-qty input { width: 100%; text-align: center; font-weight: 900; }
+.product-search-table { max-height: 56vh; overflow: auto; }
+.product-search-table tbody tr { cursor: pointer; }
+.product-search-foot { align-items: center; }
+.pos-toolbar kbd { direction: ltr; font-size: 10px; background: rgba(255,255,255,.25); border: 1px solid rgba(255,255,255,.45); border-radius: 3px; padding: 0 4px; }
+
+/* Barcode labels */
+.labels-sheet { display: grid; grid-template-columns: repeat(var(--label-columns, 4), var(--label-w, 50mm)); gap: 3mm; justify-content: center; padding: 12px; background: #fff; }
+.barcode-label { width: var(--label-w, 50mm); height: var(--label-h, 30mm); border: 1px dashed #aab8c8; background: #fff; color: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1mm; padding: 1.5mm; overflow: hidden; text-align: center; }
+.barcode-label-store { font-size: 8px; font-weight: 700; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.barcode-label-name { font-size: 9px; font-weight: 700; line-height: 1.2; max-height: 2.4em; overflow: hidden; }
+.barcode-label-price { font-size: 10px; font-weight: 900; }
+.barcode-svg { max-width: 100%; height: auto; }
+
+/* Professional invoice document */
+.invoice-document { --invoice-accent: #0b4fa2; --invoice-table: #e4f0fc; width: 100%; max-width: 794px; min-height: 1050px; margin-inline: auto; background: #fff; color: #172b45; padding: 28px; box-shadow: 0 8px 26px rgba(15,40,80,.18); border-top: 8px solid var(--invoice-accent); }
+.invoice-document.paper-thermal { max-width: 80mm; min-height: 0; padding: 12px; border-top-width: 4px; }
+.invoice-doc-header { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding-bottom: 14px; border-bottom: 2px solid var(--invoice-accent); }
+.invoice-doc-brand { display: flex; align-items: center; gap: 12px; }
+.invoice-doc-logo { width: 64px; height: 64px; object-fit: contain; }
+.invoice-doc-brand h1 { margin: 0; font-size: 24px; color: var(--invoice-accent); }
+.invoice-doc-brand p { margin: 3px 0 0; font-size: 12px; color: #60738a; }
+.invoice-doc-title { text-align: left; }
+.invoice-doc-title strong { display: block; font-size: 16px; color: var(--invoice-accent); }
+.invoice-doc-number { display: inline-block; margin-top: 5px; font-size: 20px; font-weight: 900; letter-spacing: 1px; }
+.invoice-doc-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 16px 0; }
+.invoice-doc-meta div { border: 1px solid #d7e4f0; background: #f7fafd; border-radius: 5px; padding: 7px 9px; }
+.invoice-doc-meta span { display: block; font-size: 10px; color: #6b7e93; }
+.invoice-doc-meta b { display: block; font-size: 12px; margin-top: 2px; }
+.invoice-doc-table { width: 100%; border-collapse: collapse; }
+.invoice-doc-table th { background: var(--invoice-table); color: #123c72; border: 1px solid #b9cee3; padding: 8px 6px; font-size: .95em; }
+.invoice-doc-table td { border: 1px solid #d4e0ec; padding: 7px 6px; text-align: center; }
+.invoice-doc-item-name { text-align: right !important; font-weight: 700; }
+.invoice-doc-summary { display: grid; grid-template-columns: 1fr 290px; gap: 18px; margin-top: 18px; align-items: start; }
+.invoice-doc-notes { font-size: 12px; color: #566b83; line-height: 1.9; }
+.invoice-doc-thanks { margin-top: 14px; font-weight: 700; color: #174b84; }
+.invoice-doc-totals { width: 100%; border-collapse: collapse; }
+.invoice-doc-totals td { border: 1px solid #d4e0ec; padding: 7px 9px; font-size: 12px; }
+.invoice-doc-totals td:last-child { text-align: left; direction: ltr; font-weight: 800; }
+.invoice-doc-totals .grand td { background: var(--invoice-accent); color: #fff; font-size: 15px; font-weight: 900; }
+.invoice-doc-barcode { margin-top: 22px; text-align: center; border-top: 1px dashed #9ab0c6; padding-top: 12px; }
+.invoice-document.template-classic { border: 3px double #345; border-top: 8px solid var(--invoice-accent); }
+.invoice-document.template-classic .invoice-doc-header { border-bottom-style: double; }
+.invoice-document.template-minimal { border-top: 0; box-shadow: none; }
+.invoice-document.template-minimal .invoice-doc-header { border-bottom: 1px solid #111; }
+.invoice-document.template-minimal .invoice-doc-meta div { background: #fff; border: 0; border-bottom: 1px solid #ddd; border-radius: 0; }
+.invoice-document.template-minimal .invoice-doc-table th { background: #fff; color: #111; border-color: #111; }
+.invoice-document.template-compact { max-width: 80mm; padding: 12px; min-height: 0; }
+.invoice-document.template-compact .invoice-doc-header { flex-direction: column; text-align: center; }
+.invoice-document.template-compact .invoice-doc-title { text-align: center; }
+.invoice-document.template-compact .invoice-doc-meta { grid-template-columns: 1fr 1fr; }
+.invoice-document.template-compact .invoice-doc-summary { grid-template-columns: 1fr; }
+.invoice-document.template-compact .invoice-doc-brand h1 { font-size: 18px; }
+.invoice-document-sheet { width: auto !important; padding: 0 !important; }
+
+@media print {
+  .invoice-document { box-shadow: none !important; max-width: none !important; min-height: 0 !important; width: 100% !important; }
+  .invoice-document.paper-thermal, .invoice-document.template-compact { width: 80mm !important; }
+  body.print-labels .titlebar, body.print-labels .sidebar, body.print-labels .screen-head, body.print-labels .statusbar,
+  body.print-labels .page-title, body.print-labels .page-desc, body.print-labels .labels-no-print, body.print-labels .toast, body.print-labels .modal-backdrop { display: none !important; }
+  body.print-labels .app-root, body.print-labels .app-body, body.print-labels .workspace, body.print-labels .work-area { display: block !important; height: auto !important; overflow: visible !important; background: #fff !important; padding: 0 !important; min-width: 0 !important; }
+  body.print-labels .labels-print-area { border: 0 !important; box-shadow: none !important; margin: 0 !important; }
+  body.print-labels .labels-sheet { padding: 0; gap: 2mm; }
+  body.print-labels .barcode-label { border: 0; break-inside: avoid; }
+}
+
+/* Preview back button */
+.preview-back-btn { font-weight: 900; min-height: 34px; box-shadow: 0 2px 5px rgba(11,79,162,.28); }

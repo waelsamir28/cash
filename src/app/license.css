@@ -1,0 +1,68 @@
+/* ================= بوابة الدخول والتفعيل (شاشة كاملة) ================= */
+.gate-root { position: fixed; inset: 0; z-index: 800; direction: rtl; display: flex; flex-direction: column; overflow: auto; font-family: "Cairo", Tahoma, "Segoe UI", sans-serif; background: #0a2a5e url('/images/hero-school.png') center / cover no-repeat; }
+.gate-glow { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(circle at 20% 30%, rgba(255,255,255,.18), transparent 45%), linear-gradient(90deg, rgba(6,38,90,.88), rgba(6,38,90,.45) 55%, rgba(6,38,90,.2)); }
+.gate-hero { position: relative; text-align: center; padding-top: 4vh; }
+.gate-hero .hero-big { font-size: clamp(84px, 13vw, 150px); }
+.gate-hero .hero-small { font-size: clamp(34px, 5vw, 58px); }
+.gate-main { position: relative; flex: 1; display: grid; place-items: center; padding: 22px; }
+.gate-card { width: min(480px, 92vw); background: rgba(255,255,255,.95); border: 2px solid #fff; border-radius: 22px; padding: 26px 30px; text-align: center; box-shadow: 0 24px 70px rgba(2,20,55,.45); }
+.gate-card-wide { width: min(660px, 94vw); text-align: right; }
+.gate-card-wide .gate-title, .gate-card-wide .gate-sub { text-align: center; }
+.gate-icon { width: 64px; height: 64px; margin: 0 auto 10px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: linear-gradient(#2f83dc,#0b4c9e); box-shadow: 0 8px 18px rgba(11,76,158,.35); }
+.gate-title { margin: 0; font-size: 28px; font-weight: 900; color: #0b3c80; }
+.gate-sub { margin: 6px 0 16px; color: #50677f; font-size: 14px; line-height: 1.8; }
+.gate-input { width: 100%; font-size: 20px; font-weight: 800; text-align: center; padding: 12px 14px; border-radius: 14px; border: 2px solid #7fa7d2; outline: none; background: #fff; color: #0b3c80; }
+.gate-input:focus { border-color: #1b71d0; box-shadow: 0 0 0 4px rgba(27,113,208,.18); }
+.gate-btn-row { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+.gate-btn-primary { min-width: 170px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 14px; padding: 13px 22px; font-size: 18px; font-weight: 900; color: #fff; background: linear-gradient(#3b8fe6,#0b4c9e); box-shadow: 0 8px 18px rgba(11,76,158,.35); cursor: pointer; }
+.gate-btn-primary:hover { filter: brightness(1.08); }
+.gate-btn-primary:disabled { opacity: .6; cursor: default; }
+.gate-btn-exit { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 14px; padding: 13px 22px; font-size: 16px; font-weight: 900; color: #fff; background: linear-gradient(#f05858,#b51010); cursor: pointer; }
+.gate-trial-note { margin-top: 14px; font-size: 12px; font-weight: 800; color: #8a5a05; background: #fff3d6; border: 1px solid #e3c477; border-radius: 10px; padding: 6px 10px; display: inline-block; }
+.gate-welcome { position: fixed; top: 50%; left: 50%; z-index: 900; min-width: 340px; max-width: 86vw; text-align: center; padding: 24px 34px; border-radius: 20px; background: linear-gradient(#ffffff,#eaf4ff); border: 2px solid #9cc4ee; box-shadow: 0 26px 60px rgba(2,20,55,.5); animation: gateWelcome .5s cubic-bezier(.2,.9,.3,1.25) both; color: #0b3c80; }
+@keyframes gateWelcome { from { opacity: 0; transform: translate(-50%, -44%) scale(.84); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+.welcome-hello { font-size: 16px; font-weight: 800; color: #3a6ea8; margin-top: 6px; }
+.welcome-name { font-size: 30px; font-weight: 900; color: #0b4c9e; margin: 2px 0; }
+.welcome-sub { font-size: 13px; color: #56708f; }
+.gate-ad { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 14px 24px; color: #fff; background: linear-gradient(90deg,#0b4c9e,#0a3577 55%,#c01212); border-top: 3px solid #fff; box-shadow: 0 -6px 18px rgba(2,20,55,.35); }
+.gate-ad-text { display: flex; flex-direction: column; gap: 2px; }
+.gate-ad-text b { font-size: 17px; }
+.gate-ad-text > span:not(.gate-ad-tag) { font-size: 12px; opacity: .9; }
+.gate-ad-tag { display: inline-block; width: fit-content; font-size: 11px; font-weight: 900; background: #ffd34d; color: #5b3d00; padding: 2px 10px; border-radius: 20px; }
+.gate-ad-cta { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #0b3c80; background: #fff; border-radius: 40px; padding: 8px 18px; box-shadow: 0 6px 16px rgba(0,0,0,.25); font-weight: 900; }
+.gate-ad-cta svg { color: #1a9e4a; }
+.gate-ad-phone { font-size: 20px; letter-spacing: 1px; color: #c01212; }
+.gate-ad-cta small { font-size: 11px; color: #1a7d3c; }
+
+/* ================= بطاقة الترخيص ================= */
+.license-card { display: flex; flex-direction: column; gap: 10px; text-align: right; }
+.license-status-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 12px; color: #4d6580; font-weight: 700; }
+.license-pill { border-radius: 20px; padding: 3px 12px; font-weight: 900; font-size: 12px; color: #fff; }
+.license-pill.full { background: #1c9a50; }
+.license-pill.trial { background: #d98213; }
+.license-pill.expired { background: #c01212; }
+.license-pill.tampered { background: #7a2ccc; }
+.license-message { margin: 0; font-size: 13px; color: #334e6c; line-height: 1.8; }
+.machine-box { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; border: 1px dashed #7fa7d2; border-radius: 12px; padding: 10px 12px; background: #f4f9ff; }
+.machine-box span { font-size: 12px; font-weight: 800; color: #456a92; }
+.machine-box b { font-size: 17px; letter-spacing: 1.5px; color: #0b3c80; direction: ltr; }
+.license-input { width: 100%; min-height: 76px; font-family: Consolas, monospace; font-size: 12px; direction: ltr; }
+.license-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.whatsapp-btn { background: linear-gradient(#2fd06b,#128c48) !important; color: #fff !important; border-color: #0d6d37 !important; text-decoration: none; }
+.whatsapp-btn.big { min-height: 44px; font-size: 15px; padding: 10px 18px; }
+
+/* ================= صفحة الدعم الفني ================= */
+.support-page { display: flex; flex-direction: column; gap: 12px; }
+.support-hero { display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center; padding: 18px 22px; border-radius: 14px; color: #fff; background: linear-gradient(120deg,#0b4c9e,#0a2f66 60%,#7a0e0e); box-shadow: 0 8px 22px rgba(8,38,85,.25); }
+.support-avatar { width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(#ffffff,#d6e8ff); color: #0b4c9e; border: 3px solid #ffd34d; box-shadow: 0 6px 14px rgba(0,0,0,.25); }
+.support-tag { display: inline-block; font-size: 11px; font-weight: 900; background: #ffd34d; color: #5b3d00; border-radius: 20px; padding: 2px 10px; }
+.support-hero h2 { margin: 6px 0 0; font-size: 24px; font-weight: 900; }
+.support-hero p { margin: 2px 0 6px; font-size: 13px; opacity: .92; }
+.support-phone { display: inline-block; font-size: 30px; font-weight: 900; letter-spacing: 1.5px; color: #ffd34d; text-decoration: none; }
+.support-phone:hover { text-decoration: underline; }
+.support-hero small { font-size: 12px; opacity: .85; display: inline-flex; align-items: center; gap: 4px; }
+.support-hero-actions { display: flex; flex-direction: column; gap: 8px; }
+.support-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+.support-link, .support-link-small { color: inherit; text-decoration: none; }
+.support-link:hover .phone-number { filter: brightness(1.1); }
+.trial-chip { background: #fff3d6 !important; color: #7a4b05 !important; border-color: #e3c477 !important; font-weight: 900; }
