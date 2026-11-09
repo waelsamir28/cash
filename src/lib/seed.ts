@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import { db, ensureDatabaseReady } from "@/db";
 import { customers, productCategories, productGroups, products, settings } from "@/db/schema";
 import { DEFAULT_SETTINGS } from "@/lib/types";
@@ -83,7 +84,6 @@ async function runSeed() {
   await db.insert(settings).values(settingSeed).onConflictDoNothing({ target: settings.key });
 }
 
-import { sql } from "drizzle-orm";
 
 export function ensureSeed(): Promise<void> {
   if (!seedPromise) {

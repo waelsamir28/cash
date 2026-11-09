@@ -1,0 +1,7 @@
+data
+desktop
+license-admin/private.pem
+license-admin/private.enc.pem
+license-admin/issued.log
+.env
+.env.local

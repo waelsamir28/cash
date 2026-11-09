@@ -45,7 +45,13 @@ export default async function HomePage() {
       settings = settingsData;
     }
   } catch (error) {
-    loadError = error instanceof Error ? error.message : loadError;
+    const raw = error instanceof Error ? error.message : loadError;
+    // رسالة أوضح لو الجداول غير موجودة
+    if (raw.includes('relation "') && raw.includes("does not exist")) {
+      loadError = "قاعدة البيانات فارغة — الجداول غير موجودة. افتح /api/migrate لتجهيزها أو شغّل npm run db:push محلياً.\nالتفاصيل: " + raw;
+    } else {
+      loadError = raw;
+    }
   }
 
   if (!license) {
