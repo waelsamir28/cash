@@ -1,6 +1,6 @@
 import { guardRead } from "@/lib/license/guard";
 import { db } from "@/db";
-import { customers, invoiceItems, invoices, products } from "@/db/schema";
+import { customers, expenses, invoiceItems, invoices, products, returns } from "@/db/schema";
 import { desc } from "drizzle-orm";
 import { errorResponse } from "@/lib/server";
 import { ensureSeed } from "@/lib/seed";
@@ -14,11 +14,13 @@ export async function GET() {
   if (denied) return denied;
   try {
     await ensureSeed();
-    const [invoiceRows, itemRows, productRows, customerRows] = await Promise.all([
+    const [invoiceRows, itemRows, productRows, customerRows, expenseRows, returnRows] = await Promise.all([
       db.select().from(invoices).orderBy(desc(invoices.id)).limit(500),
       db.select().from(invoiceItems),
       db.select().from(products),
       db.select().from(customers),
+      db.select().from(expenses).catch(() => [] as typeof invoices.$inferSelect[]),
+      db.select().from(returns).catch(() => [] as typeof invoices.$inferSelect[]),
     ]);
 
     const saleInvoices = invoiceRows.filter((invoice) => invoice.type === "sale");
@@ -60,12 +62,19 @@ export async function GET() {
       .slice(0, 6)
       .map((item) => ({ ...item, quantity: round(item.quantity), total: round(item.total) }));
 
+    const expensesTotal = round((expenseRows as unknown[] as { amount: number }[]).reduce((s: number, e: { amount: number }) => s + Number((e as { amount: number }).amount ?? (e as unknown as { total: number }).total ?? 0), 0));
+    const returnsTotal = round((returnRows as unknown[] as { total: number }[]).reduce((s: number, r: { total: number }) => s + Number(r.total ?? 0), 0));
+    const netProfit = round(salesTotal - cost - expensesTotal);
+
     const report: ReportsData = {
       salesTotal,
       purchasesTotal,
       salesCount: saleInvoices.length,
       purchasesCount: purchaseInvoices.length,
       profit: round(salesTotal - cost),
+      expensesTotal,
+      returnsTotal,
+      netProfit,
       productsCount: productRows.length,
       customersCount: customerRows.length,
       stockValue: round(productRows.reduce((sum, product) => sum + product.quantity * product.purchasePrice, 0)),
