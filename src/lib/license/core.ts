@@ -105,6 +105,27 @@ async function writeLicenseValue(key: string, value: string): Promise<void> {
  * - expired: انتهت التجربة أو انتهى كود التفعيل.
  */
 export async function getLicenseStatus(now = Date.now()): Promise<LicenseStatus> {
+  // وضع العرض لـ Vercel: تجاوز الترخيص بدون كود
+  if (
+    process.env.ALGAMAL_DISABLE_LICENSE === "1" ||
+    process.env.DISABLE_LICENSE === "1" ||
+    process.env.NEXT_PUBLIC_DISABLE_LICENSE === "1" ||
+    process.env.VERCEL_BYPASS_LICENSE === "1"
+  ) {
+    const machineCode = getMachineCode();
+    return {
+      state: "full",
+      message: "مفعل — وضع العرض على Vercel",
+      machineCode,
+      licensee: "Vercel Demo",
+      keyStored: true,
+      expiresAt: null,
+      daysLeft: null,
+      trialEndsAt: null,
+      trialDays: TRIAL_DAYS,
+      trialProductCount: TRIAL_PRODUCT_CODES.length,
+    };
+  }
   await ensureSeed();
   const machineCode = getMachineCode();
   const stored = await readLicenseRows();

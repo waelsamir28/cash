@@ -104,3 +104,231 @@
   body.print-mode .installments-table td:last-child { display: none !important; }
   body.print-mode .installments-table .overdue-row { background: #fff !important; }
 }
+
+/* ===== تحسينات الشاشة الرئيسية والهيدر المطلوبة ===== */
+.screen-head.compact {
+  height: 36px;
+  min-height: 36px;
+  padding: 0 10px;
+  gap: 8px;
+}
+.head-icon.compact {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.screen-head.compact .head-title {
+  font-size: 14px;
+}
+.head-actions.compact {
+  gap: 6px;
+}
+.head-chip.head-chip-compact {
+  padding: 2px 7px;
+  font-size: 10px;
+  min-height: 22px;
+  gap: 4px;
+}
+.btn.compact {
+  min-height: 24px;
+  height: 24px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 800;
+  gap: 5px;
+  white-space: nowrap;
+  line-height: 1;
+  border-radius: 4px;
+}
+.head-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.kbd-mini {
+  font-size: 9px;
+  background: rgba(255,255,255,.22);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 3px;
+  padding: 0 3px;
+  direction: ltr;
+  font-family: inherit;
+}
+.hero-banner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, #06265a 0%, #0d4ba0 50%, #06265a 100%);
+  color: #fff;
+  font-weight: 900;
+  font-size: 12.5px;
+  letter-spacing: .2px;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 -2px 6px rgba(0,0,0,.22);
+  z-index: 3;
+  border-top: 2px solid rgba(255,255,255,.9);
+  line-height: 1.4;
+}
+
+
+/* ===== شاشة الدخول الاحترافية - تصغير وتنسيق ===== */
+.start-card {
+  width: min(400px, 90vw) !important;
+  padding: 22px 24px 18px !important;
+  border-radius: 18px !important;
+  backdrop-filter: blur(14px) saturate(130%) !important;
+  box-shadow: 0 16px 40px rgba(0,8,30,.35), inset 0 1px 0 rgba(255,255,255,.3) !important;
+}
+.start-logo-wrap {
+  width: 84px !important;
+  height: 84px !important;
+  margin: 0 auto 10px !important;
+}
+.start-logo {
+  width: 68px !important;
+  height: 68px !important;
+  border-radius: 16px !important;
+  padding: 5px !important;
+}
+.start-brand {
+  font-size: 24px !important;
+  letter-spacing: .2px !important;
+}
+.start-tagline {
+  margin: 2px 0 14px !important;
+  font-size: 12px !important;
+  opacity: .82 !important;
+}
+.start-label {
+  font-size: 11px !important;
+  margin-bottom: 6px !important;
+}
+.start-input {
+  height: 42px !important;
+  border-radius: 12px !important;
+  padding: 0 12px !important;
+  gap: 8px !important;
+}
+.start-input input {
+  font-size: 14px !important;
+}
+.start-input svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+.start-enter {
+  margin-top: 12px !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+  font-size: 14px !important;
+  gap: 8px !important;
+  box-shadow: 0 8px 18px rgba(255,184,0,.32) !important;
+}
+.start-enter svg {
+  width: 17px !important;
+  height: 17px !important;
+}
+.start-exit {
+  margin-top: 8px !important;
+  height: 32px !important;
+  border-radius: 10px !important;
+  font-size: 12px !important;
+  gap: 6px !important;
+}
+.start-exit svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+.start-trial {
+  margin-top: 10px !important;
+  font-size: 11px !important;
+  padding: 5px 10px !important;
+  border-radius: 8px !important;
+}
+.start-features {
+  gap: 7px !important;
+  margin-top: 4px !important;
+}
+.start-features li {
+  padding: 6px 12px !important;
+  font-size: 11px !important;
+  gap: 6px !important;
+  border-radius: 30px !important;
+}
+.start-features svg {
+  width: 14px !important;
+  height: 14px !important;
+}
+.start-topbar {
+  padding: 12px 18px !important;
+}
+.start-chip {
+  padding: 4px 10px !important;
+  font-size: 10px !important;
+  gap: 6px !important;
+}
+.start-welcome {
+  min-width: 300px !important;
+  padding: 22px 28px !important;
+  border-radius: 18px !important;
+}
+.start-welcome-name {
+  font-size: 22px !important;
+}
+.start-welcome-icon {
+  width: 48px !important;
+  height: 48px !important;
+}
+
+/* تصغير شريط الدعم الفني */
+.gate-ad {
+  padding: 8px 16px !important;
+  gap: 10px !important;
+  border-top-width: 2px !important;
+}
+.gate-ad-text b {
+  font-size: 13px !important;
+}
+.gate-ad-text > span:not(.gate-ad-tag) {
+  font-size: 10px !important;
+}
+.gate-ad-tag {
+  font-size: 9px !important;
+  padding: 1px 7px !important;
+}
+.gate-ad-cta {
+  padding: 6px 12px !important;
+  gap: 6px !important;
+  border-radius: 30px !important;
+}
+.gate-ad-cta svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+.gate-ad-phone {
+  font-size: 14px !important;
+}
+.gate-ad-cta small {
+  font-size: 9px !important;
+}
+
+/* تحسين شاشة التفعيل */
+.gate-card-wide {
+  width: min(600px, 92vw) !important;
+  padding: 20px 22px !important;
+  border-radius: 16px !important;
+}
+.gate-title {
+  font-size: 20px !important;
+}
+.gate-sub {
+  font-size: 12px !important;
+  margin: 4px 0 10px !important;
+}
+

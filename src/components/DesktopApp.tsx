@@ -129,12 +129,12 @@ function HomeScreen({
     <div className="home-screen">
       <div className="hero">
         <div className="hero-speed" />
-        <ShoppingCart className="hero-cart" size={98} strokeWidth={2.4} />
+        <ShoppingCart className="hero-cart" size={88} strokeWidth={2.4} />
         <div className="hero-text">
           <div className="hero-small">برنامج</div>
           <div className="hero-big">الجمال</div>
-          {flags.showHeroSlogan && <div className="hero-slogan">إدارة احترافية .. لمكتبة وأدوات مدرسية أكثر نجاحاً</div>}
         </div>
+        {flags.showHeroSlogan && <div className="hero-banner">الجمال للأدوات المدرسية والمكتبية — إدارة احترافية لمكتبتك لمزيد من النجاح</div>}
         {flags.showSeal && <div className="hero-seal">برنامج<br />الجمال<br />الاختيار الأفضل</div>}
       </div>
 
@@ -488,25 +488,18 @@ export default function DesktopApp({ initialProducts, initialCustomers, initialI
       ) : (
         <div className="app-body">
           <main className="workspace">
-            <div className="screen-head">
+            <div className="screen-head compact">
               <div className="head-right">
-                <span className="head-icon"><HeadIcon size={19} /></span>
-                <div>
-                  <div className="head-title">{SCREEN_TITLES[screen].title}</div>
-                  <div className="head-sub">{SCREEN_TITLES[screen].sub}</div>
-                </div>
+                <span className="head-icon compact"><HeadIcon size={16} /></span>
+                <div className="head-title">{SCREEN_TITLES[screen].title}</div>
               </div>
-              <div className="head-actions">
-                {flags.showClock && <span className="head-chip"><Clock3 size={13} /> {clock || "—"}</span>}
-                {license.state === "trial" && <span className="head-chip trial-chip" title="النسخة التجريبية">نسخة تجريبية — متبقي {license.daysLeft} يوم</span>}
-                <button className="btn small head-btn-accent" onClick={() => setPriceOpen(true)} title="معرفة سعر صنف (F7)"><Tag size={14} /> سعر صنف <kbd>F7</kbd></button>
-                <button className="btn small" onClick={openCustomerDisplay} title="شاشة الأسعار للعملاء على شاشة ثانية"><Monitor size={14} /> شاشة العميل</button>
-                <button className={`btn small scan-status-chip ${scanActive ? (phoneLinked ? "linked" : "waiting") : ""}`} onClick={() => (scanActive ? setScanActive(false) : void openPairing())} title={scanActive ? "إيقاف استقبال الموبايل" : "ربط الموبايل ككاميرا باركود"}><Smartphone size={14} /> {scanActive ? (phoneLinked ? "الموبايل متصل" : "في انتظار الموبايل") : "ربط الموبايل"}</button>
-                {flags.showDbStatus && <span className="head-chip"><Wifi size={13} /> قاعدة البيانات <b>متصلة</b></span>}
-                {screen !== "home" && <button className="btn small" onClick={() => navigate("home")}><ChevronLeft size={14} /> الرئيسية</button>}
-                <button className="btn small blue" onClick={() => navigate("sales")}><ShoppingBasket size={14} /> مبيعات جديدة</button>
-                <button className="btn small" onClick={() => navigate("preview")}><FileSearch size={14} /> معاينة الفواتير</button>
-                <span className="avatar" title={`المستخدم: ${userName}`}>👨‍💼</span>
+              <div className="head-actions compact">
+                {flags.showClock && <span className="head-chip head-chip-compact"><Clock3 size={12} /> {clock || "—"}</span>}
+                <button className="btn compact head-action-btn" onClick={() => setPriceOpen(true)} title="معرفة سعر صنف (F7)"><Tag size={13} /> سعر صنف <kbd className="kbd-mini">F7</kbd></button>
+                <button className="btn compact head-action-btn" onClick={openCustomerDisplay} title="شاشة الأسعار للعملاء"><Monitor size={13} /> شاشة العميل</button>
+                <button className={`btn compact head-action-btn scan-status-chip ${scanActive ? (phoneLinked ? "linked" : "waiting") : ""}`} onClick={() => (scanActive ? setScanActive(false) : void openPairing())} title={scanActive ? "إيقاف استقبال الموبايل" : "ربط الموبايل ككاميرا باركود"}><Smartphone size={13} /> {scanActive ? (phoneLinked ? "الموبايل متصل" : "بانتظار الموبايل") : "ربط الموبايل"}</button>
+                {flags.showDbStatus && <span className="head-chip head-chip-compact"><Wifi size={12} /> متصلة</span>}
+                {screen !== "home" && <button className="btn compact" onClick={() => navigate("home")}><ChevronLeft size={13} /> الرئيسية</button>}
               </div>
             </div>
 
