@@ -127,6 +127,87 @@ export const paymentAllocations = pgTable("payment_allocations", {
   amount: money("amount"),
 });
 
+// ---- نظام المستخدمين والورديات ----
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  code: text("code").notNull().unique(),
+  name: text("name").notNull(),
+  phone: text("phone").notNull().default(""),
+  role: text("role").notNull().default("cashier"),
+  password: text("password").notNull().default("1234"),
+  active: boolean("active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const shifts = pgTable("shifts", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  userName: text("user_name").notNull(),
+  role: text("role").notNull().default("cashier"),
+  startAt: timestamp("start_at", { withTimezone: true }).notNull().defaultNow(),
+  endAt: timestamp("end_at", { withTimezone: true }),
+  startingCash: money("starting_cash"),
+  endingCash: money("ending_cash"),
+  totalSales: money("total_sales"),
+  totalPurchases: money("total_purchases"),
+  salesCount: integer("sales_count").notNull().default(0),
+  status: text("status").notNull().default("مفتوحة"),
+  notes: text("notes").notNull().default(""),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// ---- طلبات الشراء الذكية ----
+export const purchaseOrders = pgTable("purchase_orders", {
+  id: serial("id").primaryKey(),
+  orderNo: text("order_no").notNull().unique(),
+  status: text("status").notNull().default("مسودة"),
+  supplierName: text("supplier_name").notNull().default("المورد العام"),
+  totalItems: integer("total_items").notNull().default(0),
+  totalCost: money("total_cost"),
+  notes: text("notes").notNull().default(""),
+  createdBy: text("created_by").notNull().default(""),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const purchaseOrderItems = pgTable("purchase_order_items", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id")
+    .notNull()
+    .references(() => purchaseOrders.id, { onDelete: "cascade" }),
+  productId: integer("product_id"),
+  productCode: text("product_code").notNull(),
+  productName: text("product_name").notNull(),
+  quantity: money("quantity"),
+  purchasePrice: money("purchase_price"),
+  total: money("total"),
+});
+
+// ---- الجرد بالباركود ----
+export const inventoryCounts = pgTable("inventory_counts", {
+  id: serial("id").primaryKey(),
+  countNo: text("count_no").notNull().unique(),
+  title: text("title").notNull(),
+  status: text("status").notNull().default("جارية"),
+  createdBy: text("created_by").notNull().default(""),
+  totalScanned: integer("total_scanned").notNull().default(0),
+  totalVariance: integer("total_variance").notNull().default(0),
+  notes: text("notes").notNull().default(""),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const inventoryCountItems = pgTable("inventory_count_items", {
+  id: serial("id").primaryKey(),
+  countId: integer("count_id")
+    .notNull()
+    .references(() => inventoryCounts.id, { onDelete: "cascade" }),
+  productId: integer("product_id"),
+  productCode: text("product_code").notNull(),
+  productName: text("product_name").notNull(),
+  systemQuantity: money("system_quantity"),
+  countedQuantity: money("counted_quantity"),
+  variance: money("variance"),
+});
+
 export type PaymentAllocationRow = typeof paymentAllocations.$inferSelect;
 export type ProductCategoryRow = typeof productCategories.$inferSelect;
 export type ProductGroupRow = typeof productGroups.$inferSelect;
@@ -138,3 +219,9 @@ export type InvoiceRow = typeof invoices.$inferSelect;
 export type InvoiceItemRow = typeof invoiceItems.$inferSelect;
 export type SettingRow = typeof settings.$inferSelect;
 export type SupportTicketRow = typeof supportTickets.$inferSelect;
+export type UserRow = typeof users.$inferSelect;
+export type ShiftRow = typeof shifts.$inferSelect;
+export type PurchaseOrderRow = typeof purchaseOrders.$inferSelect;
+export type PurchaseOrderItemRow = typeof purchaseOrderItems.$inferSelect;
+export type InventoryCountRow = typeof inventoryCounts.$inferSelect;
+export type InventoryCountItemRow = typeof inventoryCountItems.$inferSelect;

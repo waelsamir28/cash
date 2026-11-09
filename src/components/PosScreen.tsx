@@ -218,6 +218,14 @@ export default function PosScreen({ mode, products, customers, invoices, setting
       const savedPrint: PrintState = { invoice: result.invoice, paidActual: rawPaid, change };
       setPrintData(savedPrint);
       onToast(`تم حفظ الفاتورة رقم ${result.invoice.invoiceNo}${remaining > 0 ? ` — المتبقي على العميل ${fmt(remaining, 2)} ${settings.currency}` : ""}`);
+      try {
+        const custPhone = (selectedCustomer as unknown as { phone?: string })?.phone || "";
+        if (isSale && custPhone && custPhone.trim()) {
+          const waText = `مرحبا ${result.invoice.customerName}\nفاتورة رقم ${result.invoice.invoiceNo} من ${settings.storeName}\nالإجمالي: ${result.invoice.total.toFixed(2)} ${settings.currency}\nالمدفوع: ${result.invoice.paid.toFixed(2)} • المتبقي: ${result.invoice.remaining.toFixed(2)}\nشكرا لتعاملكم معنا ❤️`;
+          const waLink = `https://wa.me/${custPhone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(waText)}`;
+          setTimeout(() => window.open(waLink, "_blank", "noopener"), 700);
+        }
+      } catch {}
       await onRefresh();
       setItems([]); setSelectedProduct(null); setPaidText(""); setNotes(""); setBarcode("");
       void fetchNextNumber();
