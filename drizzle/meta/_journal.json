@@ -8,6 +8,13 @@
       "when": 1794136018254,
       "tag": "0000_desktop_local_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794247868717,
+      "tag": "0001_sparkling_shiver_man",
+      "breakpoints": true
     }
   ]
 }

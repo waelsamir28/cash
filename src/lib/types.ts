@@ -16,7 +16,10 @@ export type ScreenKey =
   | "installments"
   | "preview"
   | "customize"
-  | "labels";
+  | "labels"
+  | "purchaseRequests"
+  | "shifts"
+  | "inventoryCount";
 
 export type StoreSettings = {
   storeName: string;
@@ -245,4 +248,79 @@ export type StatementData = {
   creditTotal: number;
   closing: number;
   transactions: StatementTransaction[];
+};
+
+export type AppUser = {
+  id: number;
+  code: string;
+  name: string;
+  phone: string;
+  role: string;
+  active: boolean;
+  createdAt: string;
+};
+
+export type Shift = {
+  id: number;
+  userId: number | null;
+  userName: string;
+  role: string;
+  startAt: string;
+  endAt: string | null;
+  startingCash: number;
+  endingCash: number;
+  totalSales: number;
+  totalPurchases: number;
+  salesCount: number;
+  status: string;
+  notes: string;
+  createdAt: string;
+};
+
+export type PurchaseOrder = {
+  id: number;
+  orderNo: string;
+  status: string;
+  supplierName: string;
+  totalItems: number;
+  totalCost: number;
+  notes: string;
+  createdBy: string;
+  createdAt: string;
+  items?: PurchaseOrderItem[];
+};
+
+export type PurchaseOrderItem = {
+  id: number;
+  orderId: number;
+  productId: number | null;
+  productCode: string;
+  productName: string;
+  quantity: number;
+  purchasePrice: number;
+  total: number;
+};
+
+export type InventoryCount = {
+  id: number;
+  countNo: string;
+  title: string;
+  status: string;
+  createdBy: string;
+  totalScanned: number;
+  totalVariance: number;
+  notes: string;
+  createdAt: string;
+  items?: InventoryCountItem[];
+};
+
+export type InventoryCountItem = {
+  id: number;
+  countId: number;
+  productId: number | null;
+  productCode: string;
+  productName: string;
+  systemQuantity: number;
+  countedQuantity: number;
+  variance: number;
 };

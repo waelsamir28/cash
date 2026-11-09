@@ -114,23 +114,21 @@ export const db: NodePgDatabase = new Proxy({} as NodePgDatabase, {
 
 // ---- ترحيل تلقائي لـ Postgres (Vercel/Neon) ----
 async function ensurePgMigrated(): Promise<void> {
-  // استخدم نفس pool للترحيل
   const databaseUrl = process.env.DATABASE_URL || process.env.POSTGRES_URL || "";
   if (!databaseUrl) return;
-
-  // تأكد أن Pool موجود
   getPgDatabase();
   const activePool = _pool ?? globalForDb.__arenaNextJsPostgresqlPool;
   if (!activePool) return;
 
   try {
-    // هل جدول settings موجود؟
     const check = await activePool.query("SELECT to_regclass('public.settings') as tbl");
     const exists = check.rows[0]?.tbl !== null;
-    if (exists) return;
-
+    if (exists) {
+      // تحقق من الجداول الجديدة و أنشئها لو ناقصة
+      await ensureNewTables(activePool);
+      return;
+    }
     console.log("[DB] جداول غير موجودة — جاري إنشاء الجداول تلقائياً...");
-    // ابحث عن ملف migration
     const candidates = [
       path.join(process.cwd(), "drizzle", "0000_desktop_local_init.sql"),
       path.join(process.cwd(), "drizzle.config.json"),
@@ -144,7 +142,6 @@ async function ensurePgMigrated(): Promise<void> {
       }
     }
     if (!sqlFile) {
-      // fallback: جرب قراءة مباشرة
       const fallback = path.join(process.cwd(), "drizzle", "0000_desktop_local_init.sql");
       if (fs.existsSync(fallback)) sqlFile = fallback;
     }
@@ -152,27 +149,117 @@ async function ensurePgMigrated(): Promise<void> {
       console.error("[DB] لم أجد ملف drizzle SQL للترحيل:", candidates);
       return;
     }
-
     const raw = fs.readFileSync(sqlFile, "utf8");
     const statements = raw.split("--> statement-breakpoint").map((s) => s.trim()).filter(Boolean);
-
     for (const stmt of statements) {
       if (!stmt) continue;
       try {
         await activePool.query(stmt);
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        // تجاهل أخطاء "already exists" (لو تشغيل متزامن)
         if (msg.includes("already exists")) continue;
         console.error("[DB migrate stmt error]", msg.slice(0, 300));
         throw e;
       }
     }
     console.log("[DB] تم إنشاء الجداول بنجاح ✅");
+    await ensureNewTables(activePool);
   } catch (err) {
     console.error("[DB] فشل الترحيل التلقائي:", err instanceof Error ? err.message : err);
-    // لا نرمي — نترك ensureSeed يحاول وسيظهر خطأ أوضح
   }
+}
+
+async function ensureNewTables(activePool: Pool): Promise<void> {
+  const extraSQL = [
+    `CREATE TABLE IF NOT EXISTS "users" (
+      "id" serial PRIMARY KEY NOT NULL,
+      "code" text NOT NULL UNIQUE,
+      "name" text NOT NULL,
+      "phone" text DEFAULT '' NOT NULL,
+      "role" text DEFAULT 'cashier' NOT NULL,
+      "password" text DEFAULT '1234' NOT NULL,
+      "active" boolean DEFAULT true NOT NULL,
+      "created_at" timestamp with time zone DEFAULT now() NOT NULL
+    )`,
+    `CREATE TABLE IF NOT EXISTS "shifts" (
+      "id" serial PRIMARY KEY NOT NULL,
+      "user_id" integer,
+      "user_name" text NOT NULL,
+      "role" text DEFAULT 'cashier' NOT NULL,
+      "start_at" timestamp with time zone DEFAULT now() NOT NULL,
+      "end_at" timestamp with time zone,
+      "starting_cash" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "ending_cash" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "total_sales" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "total_purchases" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "sales_count" integer DEFAULT 0 NOT NULL,
+      "status" text DEFAULT 'مفتوحة' NOT NULL,
+      "notes" text DEFAULT '' NOT NULL,
+      "created_at" timestamp with time zone DEFAULT now() NOT NULL
+    )`,
+    `CREATE TABLE IF NOT EXISTS "purchase_orders" (
+      "id" serial PRIMARY KEY NOT NULL,
+      "order_no" text NOT NULL UNIQUE,
+      "status" text DEFAULT 'مسودة' NOT NULL,
+      "supplier_name" text DEFAULT 'المورد العام' NOT NULL,
+      "total_items" integer DEFAULT 0 NOT NULL,
+      "total_cost" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "notes" text DEFAULT '' NOT NULL,
+      "created_by" text DEFAULT '' NOT NULL,
+      "created_at" timestamp with time zone DEFAULT now() NOT NULL
+    )`,
+    `CREATE TABLE IF NOT EXISTS "purchase_order_items" (
+      "id" serial PRIMARY KEY NOT NULL,
+      "order_id" integer NOT NULL REFERENCES "purchase_orders"("id") ON DELETE cascade,
+      "product_id" integer,
+      "product_code" text NOT NULL,
+      "product_name" text NOT NULL,
+      "quantity" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "purchase_price" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "total" numeric(14, 3) DEFAULT 0 NOT NULL
+    )`,
+    `CREATE TABLE IF NOT EXISTS "inventory_counts" (
+      "id" serial PRIMARY KEY NOT NULL,
+      "count_no" text NOT NULL UNIQUE,
+      "title" text NOT NULL,
+      "status" text DEFAULT 'جارية' NOT NULL,
+      "created_by" text DEFAULT '' NOT NULL,
+      "total_scanned" integer DEFAULT 0 NOT NULL,
+      "total_variance" integer DEFAULT 0 NOT NULL,
+      "notes" text DEFAULT '' NOT NULL,
+      "created_at" timestamp with time zone DEFAULT now() NOT NULL
+    )`,
+    `CREATE TABLE IF NOT EXISTS "inventory_count_items" (
+      "id" serial PRIMARY KEY NOT NULL,
+      "count_id" integer NOT NULL REFERENCES "inventory_counts"("id") ON DELETE cascade,
+      "product_id" integer,
+      "product_code" text NOT NULL,
+      "product_name" text NOT NULL,
+      "system_quantity" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "counted_quantity" numeric(14, 3) DEFAULT 0 NOT NULL,
+      "variance" numeric(14, 3) DEFAULT 0 NOT NULL
+    )`,
+  ];
+  for (const sql of extraSQL) {
+    try {
+      await activePool.query(sql);
+    } catch {
+      // تجاهل
+    }
+  }
+  // Seed افتراضي للمستخدمين لو الجدول فارغ
+  try {
+    const c = await activePool.query("SELECT count(*)::int as cnt FROM users");
+    if (c.rows[0]?.cnt === 0) {
+      await activePool.query(
+        `INSERT INTO users (code, name, phone, role, password) VALUES
+        ('U001','المدير العام','01222355769','admin','admin123'),
+        ('U002','كاشير 1','01000000001','cashier','1234'),
+        ('U003','مدير فرع','01000000002','manager','1234')
+        ON CONFLICT (code) DO NOTHING`
+      );
+    }
+  } catch {}
 }
 
 export async function ensureDatabaseReady(): Promise<void> {

@@ -86,6 +86,20 @@ export default function InvoicePreviewScreen({ invoices, customers, settings, on
         <button className="btn green" onClick={print} disabled={!detail}><Printer size={15} /> طباعة / حفظ PDF</button>
         <button className="btn" onClick={() => onNavigate("settings")}><Settings2 size={15} /> تصميم الفاتورة والثيمات</button>
         <button className="btn" onClick={() => onNavigate("sales")}><FileText size={15} /> فاتورة جديدة</button>
+        {detail && (
+          <button
+            className="btn green"
+            onClick={() => {
+              const currency = settings.currency || "ج.م";
+              const msg = `فاتورة رقم ${detail.invoiceNo}\nالعميل: ${detail.customerName}\nالإجمالي: ${detail.total.toFixed(2)} ${currency}\nالمدفوع: ${detail.paid.toFixed(2)} • المتبقي: ${detail.remaining.toFixed(2)}\n${settings.storeName} - ${settings.phone || ""}\n${typeof window !== "undefined" ? window.location.origin : ""}`;
+              const phone = (customer as unknown as { phone?: string } | undefined)?.phone || "";
+              const link = phone ? `https://wa.me/${phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+              window.open(link, "_blank", "noopener");
+            }}
+          >
+            واتساب للعميل
+          </button>
+        )}
         <button className="btn red" onClick={() => void remove()} disabled={!detail || busy}><Trash2 size={15} /> حذف الفاتورة</button>
       </div>
 

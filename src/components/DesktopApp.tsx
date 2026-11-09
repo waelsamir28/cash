@@ -30,6 +30,9 @@ import { useSession } from "@/lib/session-context";
 import PriceLookupPanel from "@/components/PriceLookupPanel";
 import PairingModal, { type ScanSession } from "@/components/PairingModal";
 import { Monitor, Smartphone, Tag } from "lucide-react";
+import PurchaseRequestsScreen from "@/components/PurchaseRequestsScreen";
+import ShiftsScreen from "@/components/ShiftsScreen";
+import InventoryCountScreen from "@/components/InventoryCountScreen";
 import { SUPPORT, whatsappLink } from "@/lib/support";
 import StatementsScreen from "@/components/StatementsScreen";
 import InvoicePreviewScreen from "@/components/InvoicePreviewScreen";
@@ -55,6 +58,7 @@ const MODULE_ICONS: Record<ScreenKey, LucideIcon> = {
   reports: BarChart3, customers: Users, settings: Settings, backup: Database,
   support: Headset, about: Info, help: HelpCircle, statements: Wallet,
   preview: FileSearch, customize: SlidersHorizontal, installments: HandCoins, catalog: Boxes, labels: Barcode,
+  purchaseRequests: ShoppingBasket, shifts: Clock3, inventoryCount: ClipboardList,
 };
 
 const CUSTOM_ICONS: Record<string, LucideIcon> = {
@@ -63,8 +67,8 @@ const CUSTOM_ICONS: Record<string, LucideIcon> = {
 };
 
 const NAV_ORDER: ScreenKey[] = [
-  "home", "sales", "purchases", "inventory", "catalog", "labels", "reports", "statements", "installments", "preview",
-  "customers", "backup", "support", "settings", "customize", "help",
+  "home", "sales", "purchases", "purchaseRequests", "inventory", "inventoryCount", "catalog", "labels", "reports", "statements", "installments", "preview",
+  "customers", "shifts", "backup", "support", "settings", "customize", "help",
 ];
 
 const TILE_DEFS: { key: TileKey; label: string; icon: LucideIcon; color: string }[] = [
@@ -82,6 +86,9 @@ const TILE_DEFS: { key: TileKey; label: string; icon: LucideIcon; color: string 
   { key: "backup", label: "النسخ الاحتياطي", icon: Database, color: "linear-gradient(#5bca8c,#128649)" },
   { key: "support", label: "الدعم الفني", icon: Headset, color: "linear-gradient(#4595e2,#0b408a)" },
   { key: "customize", label: "تخصيص البرنامج", icon: SlidersHorizontal, color: "linear-gradient(#627fa8,#243d63)" },
+  { key: "purchaseRequests", label: "طلبات الشراء الذكية", icon: ShoppingBasket, color: "linear-gradient(#e68a1a,#a85d00)" },
+  { key: "shifts", label: "الورديات والكاشير", icon: Clock3, color: "linear-gradient(#4b7edb,#103a8a)" },
+  { key: "inventoryCount", label: "جرد بالباركود", icon: ClipboardList, color: "linear-gradient(#36b58a,#0d6648)" },
   { key: "about", label: "معلومات عن البرنامج", icon: Info, color: "linear-gradient(#38a7ec,#0b5eae)" },
   { key: "help", label: "المساعدة", icon: HelpCircle, color: "linear-gradient(#f0c04a,#b77c0b)" },
   { key: "exit", label: "خروج", icon: LogOut, color: "linear-gradient(#ef6565,#b51010)" },
@@ -105,6 +112,9 @@ const SCREEN_TITLES: Record<ScreenKey, { title: string; sub: string; icon: Lucid
   installments: { title: "الأقساط والتحصيل", sub: "أرصدة العملاء وآخر دفعة وتنبيهات التأخير", icon: HandCoins },
   preview: { title: "معاينة الفواتير", sub: "معاينة التصميم النهائي قبل الطباعة", icon: FileSearch },
   customize: { title: "تخصيص البرنامج", sub: "إخفاء وإضافة وحذف الوحدات وعناصر الواجهة", icon: SlidersHorizontal },
+  purchaseRequests: { title: "طلبات الشراء الذكية", sub: "مراقبة النواقص واقتراح كميات الشراء تلقائياً", icon: ShoppingBasket },
+  shifts: { title: "الورديات والكاشير", sub: "إدارة المستخدمين والورديات مع تقرير كل وردية", icon: Clock3 },
+  inventoryCount: { title: "الجرد بالباركود", sub: "مسح الأصناف بالموبايل وتقرير الفروقات", icon: ClipboardList },
 };
 
 function CustomIcon({ name, size = 24 }: { name: string; size?: number }) {
@@ -441,6 +451,12 @@ export default function DesktopApp({ initialProducts, initialCustomers, initialI
         return <InstallmentsScreen data={installmentsData} customers={customers} onOpenStatement={(id) => openStatement(id)} {...common} />;
       case "preview":
         return <InvoicePreviewScreen key={previewInvoiceId ?? "all"} invoices={invoices} customers={customers} initialInvoiceId={previewInvoiceId} onNavigate={(target) => navigate(target)} onBack={goBackToInvoice} backLabel={backLabel} {...common} />;
+      case "purchaseRequests":
+        return <PurchaseRequestsScreen products={products} {...common} />;
+      case "shifts":
+        return <ShiftsScreen onToast={showToast} />;
+      case "inventoryCount":
+        return <InventoryCountScreen onToast={showToast} />;
       case "customize":
         return <CustomizationScreen onNavigate={(target) => navigate(target)} {...common} />;
       default:
