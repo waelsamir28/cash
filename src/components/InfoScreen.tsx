@@ -2,65 +2,12 @@
 
 import { SUPPORT } from "@/lib/support";
 
-import { BadgeCheck, Barcode, BookOpenCheck, Boxes, Cloud, GraduationCap, HelpCircle, Info, Keyboard, Monitor, PackageCheck, Printer, ShieldCheck, Store, Users } from "lucide-react";
+import { BadgeCheck, HelpCircle, Info, Keyboard, Monitor, PackageCheck } from "lucide-react";
 
 type Props = {
   variant: "about" | "help";
   onNavigate: (screen: "backup" | "help" | "about" | "statements" | "preview" | "customize" | "settings") => void;
 };
-
-const SUGGESTIONS = [
-  {
-    icon: Barcode,
-    title: "طباعة باركود وملصقات الأسعار",
-    text: "توليد باركود لكل صنف وطباعته على ملصقات لاصقة، مع إمكانية مسح الصنف مباشرة في شاشة المبيعات وتقليل أخطاء إدخال الأكواد.",
-  },
-  {
-    icon: GraduationCap,
-    title: "طلبات المدارس وموسم الدراسة",
-    text: "إنشاء «قائمة تجهيز مدرسية» جاهزة لكل صف دراسي، وتحويلها لفاتورة أو عرض سعر، وحجز الكميات قبل بدء الموسم.",
-  },
-  {
-    icon: Boxes,
-    title: "طلبات الشراء الآلية للموردين",
-    text: "عند وصول صنف لحد التنبيه ينشئ البرنامج اقتراح طلب شراء بالكمية المطلوبة، مع مقارنة أسعار الموردين وتتبع وصول الطلب.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "المستخدمون والصلاحيات",
-    text: "حساب للمدير وآخر للكاشير مع صلاحيات منفصلة: منع حذف الفواتير، إخفاء التقارير، وتسجيل كل عملية باسم المستخدم والوقت.",
-  },
-  {
-    icon: Store,
-    title: "فروع ومخازن متعددة",
-    text: "إدارة أكثر من فرع أو مخزن مع تحويل الأصناف بين الفروع وتقرير مخزون موحد، وهو مفيد إذا كان لديك أكثر من مكتبة.",
-  },
-  {
-    icon: Printer,
-    title: "أجهزة نقطة البيع والفاتورة الإلكترونية",
-    text: "دعم درج النقود والطابعة الحرارية وقارئ الباركود، مع إصدار QR ورقم فاتورة إلكتروني متوافق مع متطلبات الضريبة.",
-  },
-  {
-    icon: Users,
-    title: "برنامج ولاء للمدارس والمكتبات",
-    text: "نقاط أو خصم تلقائي لعملاء الجملة والمدارس عند تكرار الشراء، مع حد ائتمان لكل عميل وتنبيه عند تجاوزه.",
-  },
-  {
-    icon: Cloud,
-    title: "نسخ سحابي ومزامنة بدون إنترنت",
-    text: "حفظ نسخة احتياطية تلقائية يومياً على السحابة، وتشغيل البرنامج محلياً عند انقطاع الإنترنت ثم مزامنة البيانات لاحقاً.",
-  },
-  {
-    icon: BookOpenCheck,
-    title: "تقارير موسمية وتحليل الأصناف",
-    text: "مقارنة مبيعات موسم المدارس بالأعوام السابقة، معرفة الأصناف الراكدة، وتوقع الكميات المطلوبة قبل ذروة الطلب.",
-  },
-  {
-    icon: PackageCheck,
-    title: "باقات وعروض مجمّعة",
-    text: "تكوين «شنطة مدرسية جاهزة» تضم عدة أصناف بسعر خاص؛ عند بيعها يُخصم كل صنف من المخزون تلقائياً.",
-  },
-];
 
 export default function InfoScreen({ variant, onNavigate }: Props) {
   if (variant === "about") {
@@ -101,7 +48,7 @@ export default function InfoScreen({ variant, onNavigate }: Props) {
                 <div><span>✔</span> جاهز للتحويل إلى ملف تنفيذي EXE لويندوز</div>
               </div>
               <div style={{ display: "flex", gap: 7, marginTop: 14, flexWrap: "wrap" }}>
-                <button className="btn blue" onClick={() => onNavigate("help")}><HelpCircle size={15} /> دليل التشغيل والاقتراحات</button>
+                <button className="btn blue" onClick={() => onNavigate("help")}><HelpCircle size={15} /> دليل التشغيل</button>
                 <button className="btn" onClick={() => onNavigate("customize")}>تخصيص البرنامج</button>
               </div>
             </div>
@@ -114,7 +61,7 @@ export default function InfoScreen({ variant, onNavigate }: Props) {
   return (
     <div>
       <h2 className="page-title"><HelpCircle size={20} style={{ verticalAlign: "middle", marginLeft: 6 }} /> المساعدة ودليل التشغيل</h2>
-      <p className="page-desc">خطوات التشغيل، الاختصارات، تجهيز EXE، واقتراحات عملية لتطوير البرنامج.</p>
+      <p className="page-desc">خطوات التشغيل، الاختصارات، وتجهيز ملف EXE لويندوز.</p>
 
       <div className="two-col" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <div className="panel">
@@ -180,32 +127,6 @@ desktop/dist-exe/AlGamal-Portable-2.1.0.exe`}</div>
             <div><b>كيف أستخدم الباركود؟</b><br />اكتب الكود في شاشة المبيعات واضغط Enter أو امسحه بقارئ الباركود.</div>
             <div><b>كيف أعرض فاتورة قديمة؟</b><br />من «معاينة الفواتير» اختر الفاتورة واضغط طباعة / PDF.</div>
             <div><b>كيف أخفي شاشة لا أحتاجها؟</b><br />من «تخصيص البرنامج» أو تبويب التخصيص في الإعدادات ثم احفظ.</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="panel" style={{ marginTop: 12 }}>
-        <div className="panel-head"><span>اقتراحات لتطوير برنامج الجمال — شرح بالعربي</span><BadgeCheck size={17} /></div>
-        <div className="panel-body">
-          <div className="info-box" style={{ marginBottom: 12 }}>
-            الاقتراحات التالية مرتبة عملياً حسب الأثر على محل الأدوات المدرسية: أولاً تقليل أخطاء البيع، ثم تنظيم المخزون والموسم، ثم التوسع والربط الخارجي.
-          </div>
-          <div className="suggestion-list">
-            {SUGGESTIONS.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <div className="suggestion-card" key={item.title}>
-                  <b>{index + 1}. <Icon size={14} style={{ verticalAlign: "middle" }} /> {item.title}</b>
-                  <p>{item.text}</p>
-                </div>
-              );
-            })}
-          </div>
-          <div style={{ display: "flex", gap: 7, marginTop: 14, flexWrap: "wrap" }}>
-            <button className="btn blue" onClick={() => onNavigate("statements")}>جرّب كشف الحساب</button>
-            <button className="btn" onClick={() => onNavigate("preview")}>جرّب معاينة الفواتير</button>
-            <button className="btn" onClick={() => onNavigate("settings")}>جرّب الثيمات والتصميم</button>
-            <button className="btn" onClick={() => onNavigate("customize")}>جرّب التخصيص</button>
           </div>
         </div>
       </div>
