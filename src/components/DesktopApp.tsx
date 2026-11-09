@@ -27,6 +27,7 @@ import BackupScreen from "@/components/BackupScreen";
 import SupportScreen from "@/components/SupportScreen";
 import InfoScreen from "@/components/InfoScreen";
 import { useSession } from "@/lib/session-context";
+import PWAInstall from "@/components/PWAInstall";
 import PriceLookupPanel from "@/components/PriceLookupPanel";
 import PairingModal, { type ScanSession } from "@/components/PairingModal";
 import { Monitor, Smartphone, Tag } from "lucide-react";
@@ -627,6 +628,8 @@ export default function DesktopApp({ initialProducts, initialCustomers, initialI
           </div>
         </div>
       )}
+
+      <PWAInstall />
 
       {customModal && (
         <div className="modal-backdrop">
